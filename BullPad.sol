@@ -13,6 +13,8 @@ contract Bullpad is BullIdo{
           }
     }
     function claim(address _user)public returns(uint256){
+       require(tokenShare(_user)>0,"BullPad:No Claimable Share");
+       user memory userDetails = User[_user];
        return _claimShare(_user);
     }
     function tokenShare(address _user)public view returns(uint256){

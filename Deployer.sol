@@ -20,10 +20,10 @@ contract bullManager is Ownable{
             cloneAddress := create(0, clone, 0x37)
         }
      }
-    function idoDeployment() public onlyOwner returns(IERC20){
+    function idoDeployment() internal returns(IERC20){
         idoContract = IBULL(_deploy());
     }
-     function initialize(
+     function createIdo(
             IERC20 _offeringToken,
      IERC20 _rasingToken,
      uint256 _totalAllocation,
@@ -35,7 +35,8 @@ contract bullManager is Ownable{
      uint256 _fcfsStartBlock,
      uint256 _fcfsDuration,
      bool _OfferRemainedAllocation
-           )public {
+           )public onlyOwner{
+            idoDeployment();
             _offeringToken.safeTransferFrom(_msgSender(),address(idoContract),_offeringAllocation);
             idoContract.initialize(
             _offeringToken,

@@ -112,10 +112,10 @@ contract BullIdo is Ownable,Initializable{
         require(_amount>0,"BullPad:Zero Participation Error");
         require(block.number > startBlock && block.number < endBlock,"BullPad:Invalid Ido Time");
         user storage userDetails=User[_user];
-        User[_user]=user(userDetails.whitelist,(userDetails.participationAmount).add(_amount),block.number,false,0);
         rasingToken.safeTransferFrom(_msgSender(),address(this),_amount);
         //avoid user participate more than share
         whiteListAllocation().sub(userDetails.participationAmount).sub(_amount,"BullPad:Participation Amount Overflow");
+        User[_user]=user(userDetails.whitelist,(userDetails.participationAmount).add(_amount),block.number,false,0);
         usedAllocation = usedAllocation.add(_amount);
         emit _userParticipate(_user,_amount,block.number,false);
         
